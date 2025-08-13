@@ -1,4 +1,4 @@
-import { get, post } from './httpClient'
+import { get } from './httpClient'
 import { categoriesSchema, imagesSchema } from './schemas'
 import type { Category, ImageItem } from './schemas'
 
