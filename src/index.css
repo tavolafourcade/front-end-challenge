@@ -1,4 +1,5 @@
-/* Reset minimal; real styles vendrán con Tailwind. */
+@import 'tailwindcss';
+
 html,
 body,
 #root {
