@@ -3,12 +3,15 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { getUnanalyzedImages } from '../../../lib/api/endpoints'
 import ImageQueue from '../components/ImageQueue'
+import ImageQueueSkeleton from '../components/ImageQueueSkeleton'
 import { useImageQueueStore } from '../../../stores/imageQueueStore'
 
 export default function ImageQueueContainer() {
   const queryClient = useQueryClient()
-  const { data } = useQuery({ queryKey: ['images'], queryFn: getUnanalyzedImages })
+  const { data, isLoading } = useQuery({ queryKey: ['images'], queryFn: getUnanalyzedImages })
+
   const items = useMemo(() => (data ?? []).map((d) => ({ id: d.id, url: d.url })), [data])
+
   const activeImageId = useImageQueueStore((s) => s.activeImageId)
   const setActiveImageId = useImageQueueStore((s) => s.setActiveImageId)
 
@@ -24,6 +27,8 @@ export default function ImageQueueContainer() {
       queryClient.prefetchQuery({ queryKey: ['image', next.id], queryFn: async () => next })
     }
   }, [activeImageId, data, queryClient])
+
+  if (isLoading) return <ImageQueueSkeleton />
 
   return (
     <ImageQueue items={items} activeId={activeImageId} onSelect={(id) => setActiveImageId(id)} />

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 
 import CategorySearchInput from '../components/CategorySearchInput'
 import CategoryList, { type Category } from '../components/CategoryList'
+import CategoryListSkeleton from '../components/CategoryListSkeleton'
 import ActionButtons from '../components/ActionButtons'
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   onDiscard: () => void
   onConfirm: () => void
   confirmDisabled?: boolean
+  isLoading?: boolean
 }
 
 export default function SidebarContainer({
@@ -20,6 +22,7 @@ export default function SidebarContainer({
   onDiscard,
   onConfirm,
   confirmDisabled,
+  isLoading,
 }: Props) {
   const [query, setQuery] = useState('')
 
@@ -32,7 +35,11 @@ export default function SidebarContainer({
   return (
     <aside className="w-[300px] bg-zinc-200 p-5 flex flex-col box-border">
       <CategorySearchInput value={query} onChange={setQuery} />
-      <CategoryList categories={filtered} selectedId={selectedId} onSelect={onSelect} />
+      {isLoading ? (
+        <CategoryListSkeleton />
+      ) : (
+        <CategoryList categories={filtered} selectedId={selectedId} onSelect={onSelect} />
+      )}
       <ActionButtons
         onDiscard={onDiscard}
         onConfirm={onConfirm}
