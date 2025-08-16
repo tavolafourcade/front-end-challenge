@@ -10,7 +10,6 @@ export default function ImageQueue({ items, activeId, onSelect }: Props) {
       <h2 className="text-xl font-semibold mb-2">Next images in queue:</h2>
       <ul className="flex list-none p-0 m-0 overflow-x-auto gap-2">
         {items.map((i) => {
-          console.log(i)
           const isActive = i.id === activeId
           return (
             <li key={i.id}>
