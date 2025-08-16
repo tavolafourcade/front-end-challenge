@@ -13,6 +13,8 @@ type Props = {
   onConfirm: () => void
   confirmDisabled?: boolean
   isLoading?: boolean
+  discardLoading?: boolean
+  confirmLoading?: boolean
 }
 
 export default function SidebarContainer({
@@ -23,6 +25,8 @@ export default function SidebarContainer({
   onConfirm,
   confirmDisabled,
   isLoading,
+  discardLoading,
+  confirmLoading,
 }: Props) {
   const [query, setQuery] = useState('')
 
@@ -44,6 +48,8 @@ export default function SidebarContainer({
         onDiscard={onDiscard}
         onConfirm={onConfirm}
         confirmDisabled={confirmDisabled}
+        discardLoading={discardLoading}
+        confirmLoading={confirmLoading}
       />
     </aside>
   )

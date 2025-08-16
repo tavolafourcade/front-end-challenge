@@ -2,10 +2,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAnnotationStore } from '../../../stores/annotationStore'
 import { normalizedToPx, pxToNormalized } from '../utils/bbox'
 
-type Props = { imageUrl: string }
+type Props = {
+  imageUrl: string
+  imgRef?: React.RefObject<HTMLImageElement | null>
+}
 
-export default function ImageCanvas({ imageUrl }: Props) {
-  const imgRef = useRef<HTMLImageElement | null>(null)
+export default function ImageCanvas({ imageUrl, imgRef: externalImgRef }: Props) {
+  const internalImgRef = useRef<HTMLImageElement | null>(null)
+  const imgRef = externalImgRef || internalImgRef
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [overlayRect, setOverlayRect] = useState<{
     x: number
@@ -24,7 +28,7 @@ export default function ImageCanvas({ imageUrl }: Props) {
     const ir = img.getBoundingClientRect()
     const cr = container.getBoundingClientRect()
     setOverlayRect({ x: ir.left - cr.left, y: ir.top - cr.top, w: ir.width, h: ir.height })
-  }, [])
+  }, [imgRef])
 
   useEffect(() => {
     updateOverlayRect()
